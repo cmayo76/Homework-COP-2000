@@ -31,7 +31,7 @@
 */
 
 /* Set the date displayed in the calendar */
-var thisDay = new Date("August 24, 2018");
+var thisDay = new Date();
 
 /* Write the calendar to the element with the id "calendar" */
 document.getElementById("calendar").innerHTML = createCalendar(thisDay);
@@ -41,6 +41,7 @@ function createCalendar(calDate) {
     var calendarHTML = "<table id='calendar_table'>";
     calendarHTML += calCaption(calDate);
     calendarHTML += calWeekdayRow();
+    calendarHTML += calDays(calDate);
     calendarHTML += "</table>";
     return calendarHTML;
 }
@@ -108,4 +109,22 @@ function calDays(calDate) {
     }
 
     // Write cells for each day of the month
+    var totalDays = daysInMonth(calDate);
+
+    var highlightDay = calDate.getDate();
+    for (var i = 1; i <= totalDays; i++) {
+        day.setDate(i);
+        weekDay = day.getDay();
+
+        if (weekDay === 0) htmlCode += "<tr>";
+        if (i === highlightDay) {
+            htmlCode += "<td class='calendar_dates' id='calendar_today'>" + i + dayEvent[i] + "</td>";
+        }
+        else { 
+        htmlCode += "<td class='calendar_dates'>" + i + dayEvent[i] +"</td>";
+        if (weekDay === 6) htmlCode += "</tr>";
+    }
+    
+    }
+    return htmlCode;
 }
